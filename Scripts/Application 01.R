@@ -9,7 +9,7 @@ y <- c(2.160, 0.746, 0.402, 0.954, 0.491, 6.560, 4.992, 0.347,
        4.082, 0.199, 0.605, 0.273, 0.070, 0.062, 5.320)
 
 # FIGURE
-pdf('hist_ecdf_esurv_example_1.pdf', width=12, height=12)
+pdf('Figs/hist_ecdf_esurv_example_1.pdf', width=12, height=12)
 par(mfrow=c(2, 2))
 # Histogram
 hist(y, freq=FALSE, las=1, breaks=5, 
@@ -83,7 +83,7 @@ exp(coef(mod_rob, what="sigma"))
 AIC(mod_rob)
 
 # FIGURE
-pdf('res_example_1.pdf', width=12, height=12)
+pdf('Figs/res_example_1.pdf', width=12, height=12)
 
 par(mfrow=c(2, 2))
 

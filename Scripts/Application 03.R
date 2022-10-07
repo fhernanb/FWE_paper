@@ -1,6 +1,6 @@
 
 library(readxl)
-data <- read_excel("moret_tatay_et_al.2022.xlsx")
+data <- read_excel("Data/moret_tatay_et_al.2022.xlsx")
 
 # retaining correct RTs that are between 250 and 1800 milliseconds
 data2 <- subset(data, RT<1800 & RT>250 & Accuracy==1)

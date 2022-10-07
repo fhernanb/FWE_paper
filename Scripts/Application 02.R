@@ -14,7 +14,7 @@ y <- c(1.901, 2.132, 2.203, 2.228, 2.257, 2.350, 2.361, 2.396, 2.397,
        3.852, 3.871, 3.886, 3.971, 4.024, 4.027, 4.225, 4.395, 5.020) 
 
 # FIGURE
-pdf('hist_ecdf_esurv_example_2.pdf', width=12, height=12)
+pdf('Figs/hist_ecdf_esurv_example_2.pdf', width=12, height=12)
 par(mfrow=c(2, 2))
 # Histogram
 hist(y, freq=FALSE, las=1, xlim=c(1, 6),
@@ -88,7 +88,7 @@ mu_hat <- 0.8595109
 sig_hat <- 9.193876
 
 # FIGURE
-pdf('res_example_2.pdf', width=12, height=12)
+pdf('Figs/res_example_2.pdf', width=12, height=12)
 
 par(mfrow=c(2, 2))
 
