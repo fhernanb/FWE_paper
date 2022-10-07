@@ -3,8 +3,6 @@ library(gamlss)
 library(gamlss.cens)
 library(survival)
 
-setwd("G:/Mi unidad/13_Mis_Articulos/FWE distribution/R code for paper")
-
 # The parameters ----------------------------------------------------------
 true_mu    <- 0.21
 true_sigma <- 0.25
@@ -55,6 +53,7 @@ simul <- function(x) {
 # Aqui se definen los valores de tamano muestral n
 # Aqui se definen los valores porcentajes de censura
 # Luego se define el numero de repeticiones
+
 n <- seq(from=20, to=300, by=20)
 censura <- c(0, 0.1, 0.2, 0.3)
 nrep <- 300
@@ -63,13 +62,4 @@ values <- expand.grid(n=n, censura=censura)
 values
 
 apply(values, 1, simul)
-apply(values, 1, simul)
-apply(values, 1, simul)
-apply(values, 1, simul)
-apply(values, 1, simul)
 
-apply(values, 1, simul)
-apply(values, 1, simul)
-apply(values, 1, simul)
-apply(values, 1, simul)
-apply(values, 1, simul)

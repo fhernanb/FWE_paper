@@ -3,8 +3,6 @@ library(gamlss)
 library(gamlss.cens)
 library(survival)
 
-setwd("G:/Mi unidad/13_Mis_Articulos/FWE distribution/R code for paper")
-
 # The parameters ----------------------------------------------------------
 b0 <- -2
 b1 <- 0.9
@@ -74,7 +72,6 @@ simul <- function(x) {
 #values
 #apply(values, 1, simul)
 
-# ahhhhhhhhhhhhhhhhh
 n <- seq(from=20, to=300, by=20)
 censura <- c(0, 0.1, 0.2, 0.3)
 nrep <- 100
@@ -83,16 +80,4 @@ values <- expand.grid(n=n, censura=censura)
 values
 
 apply(values, 1, simul)
-apply(values, 1, simul)
-apply(values, 1, simul)
-apply(values, 1, simul)
-apply(values, 1, simul)
-
-apply(values, 1, simul)
-apply(values, 1, simul)
-apply(values, 1, simul)
-apply(values, 1, simul)
-apply(values, 1, simul)
-
-
 

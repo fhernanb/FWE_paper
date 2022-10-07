@@ -1,7 +1,5 @@
-setwd("G:/Mi unidad/13_Mis_Articulos/FWE distribution/R code for paper")
-
 # Plots -------------------------------------------------------------------
-dt <- read.table('simul_with_cov.txt', 
+dt <- read.table('Simulated_data/simul_with_cov.txt', 
                  col.names=c('b0', 'b1', 'g0', 'g1', 'n', 'censura'))
 
 require(dplyr)
@@ -66,7 +64,7 @@ p4 <- ggplot(data=res, aes(x=n, y=mean_g1, group=Censored)) +
 
 mean2 <- grid.arrange(p1, p2, p3, p4, nrow=2, ncol=2)
 mean2
-ggsave(filename="mean2.pdf", 
+ggsave(filename="Figs/mean2.pdf", 
        plot=mean2, 
        width=10, height=8)
 
@@ -93,7 +91,7 @@ p4 <- ggplot(data=res, aes(x=n, y=mse_g1, group=Censored)) +
 
 mse2 <- grid.arrange(p1, p2, p3, p4, nrow=2, ncol=2)
 mse2
-ggsave(filename="mse2.pdf", 
+ggsave(filename="Figs/mse2.pdf", 
        plot=mse2, 
        width=10, height=8)
 
