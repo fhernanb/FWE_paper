@@ -5,11 +5,6 @@ dt <- read.table('Simulated_data/simul_without_cov.txt',
 require(dplyr)
 library(tidyr)
 
-# Filtrando para quedar con las estimaciones coherentes
-dt <- dt %>% filter(mu < 2 & censura %in% c(0, 0.1, 0.2, 0.3) &
-                      n %in% seq(20, 300, 20))
-
-
 # Numero de observaciones por combinacion de n y censura
 num <- dt %>% group_by(censura, n) %>% count()
 mean(num$nn)

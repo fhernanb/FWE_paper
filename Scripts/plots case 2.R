@@ -5,9 +5,6 @@ dt <- read.table('Simulated_data/simul_with_cov.txt',
 require(dplyr)
 library(tidyr)
 
-# Filtrando para quedar con las estimaciones coherentes
-#dt <- dt %>% filter(b0 > -10 & b1 > -10)
-
 # Numero de observaciones por combinacion de n y censura
 num <- dt %>% group_by(censura, n) %>% count()
 mean(num$nn)

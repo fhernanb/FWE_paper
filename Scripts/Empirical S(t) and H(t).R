@@ -65,4 +65,3 @@ plot(haz, xlim=c(0, 7), ylim=c(0, 2.5), las=1)
 curve(hFWE(x, mu = mu, sigma = sigma), 
       from=0, to=7, ylim=c(0, 2.5), col="tomato", lwd=2, las=1, add=TRUE)
 
-
