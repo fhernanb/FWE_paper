@@ -91,7 +91,7 @@ par(mfrow=c(2, 2))
 hist(y, freq=FALSE, las=1, breaks=5, main="(a)", ylim=c(0, 0.6), 
      ylab="f(y)", xlab="y", col="white")
 curve(dFWE(x, mu = mu_hat, sigma = sig_hat), from=0, to=7, ylim=c(0,1),
-      col="tomato", las=1, lwd=2, add=TRUE)
+      col="black", las=1, lwd=2, add=TRUE)
 
 # F(y)
 plot(ecdf(x=y), ylim=c(0,1), main="(b)", las = 1, ylab="F(y)", xlab="y", 
@@ -100,7 +100,7 @@ axis(side=1, at=0:7, labels=0:7)
 
 # S(y)
 curve(pFWE(x, mu = mu_hat, sigma = sig_hat, lower.tail = TRUE, log.p = FALSE),
-      from = 0, to = 7, col="tomato", lwd=2, add=TRUE, main="(c)")
+      from = 0, to = 7, col="black", lwd=2, add=TRUE, main="(c)")
 
 fun <- ecdf(y)
 sfun0  <- stepfun(x=sort(y), y=c(1, 1-fun(sort(y))), right=FALSE)
@@ -109,7 +109,7 @@ plot(sfun0, pch = 19, verticals = FALSE, las=1,
 axis(side=1, at=0:7, labels=0:7)
 abline(h = c(0, 1), col = "gray70", lty = 2)
 curve(pFWE(x, mu = mu_hat, sigma = sig_hat, lower.tail = FALSE, log.p = FALSE),
-      from = 0, to = 7, col="tomato", lwd=2, las = 1, ylab="R(y)", xlab="y",
+      from = 0, to = 7, col="black", lwd=2, las = 1, ylab="R(y)", xlab="y",
       add=TRUE)
 
 # H(y)
@@ -136,7 +136,7 @@ plot(x=sort(y), y=emp_pdf(sort(y)) / emp_sur(sort(y)),
      xlim=c(0, 7), ylim=c(0, 2.5))
 
 curve(hFWE(x, mu = mu_hat, sigma = sig_hat), from=0, to=7, ylim=c(0, 2.5), 
-      col="tomato", lwd=2, las=1, ylab="H(y)", xlab="y", add=TRUE)
+      col="black", lwd=2, las=1, ylab="H(y)", xlab="y", add=TRUE)
 
 dev.off()
 
