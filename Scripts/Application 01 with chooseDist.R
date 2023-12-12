@@ -1,4 +1,4 @@
-# Script for the first example in the FWE paper
+# Script for the first example of the FWE paper
 
 require(RelDists)
 require(gamlss)
@@ -13,7 +13,7 @@ pdf('Figs/hist_ecdf_esurv_example_1.pdf', width=12, height=12)
 par(mfrow=c(2, 2))
 # Histogram
 hist(y, freq=FALSE, las=1, breaks=5, 
-     main="(a)", ylab="Relative frequency", col="white")
+     main="(a)", ylab="Relative frequency", col="white", border=gray(0.8))
 rug(x=y, col=gray(0.1))
 # Empirical cdf
 plot(ecdf(x=y), las=1,
@@ -47,40 +47,101 @@ emp_pdf <- with(density(y), approxfun(x, y, rule=1))
 
 plot(x=sort(y), y=emp_pdf(sort(y)) / emp_sur(sort(y)), 
      las=1, col="gray70", type="s", main="(d)",
-     ylab="Empirical H(y)", xlab="y",
+     ylab="Empirical h(y)", xlab="y",
      xlim=c(0, 7), ylim=c(0, 2.5))
 
 dev.off()
 
 
-# Fitting the model
+# Base model --------------------------------------------------------------
+
 library(RelDists)
 library(gamlss)
 mod <- gamlss(y~1, family='FWE')
 
 summary(mod)
+
+exp(coef(mod, what="mu"))
+exp(coef(mod, what="sigma"))
 AIC(mod)
 
-mu_hat  <- exp(coef(mod, what="mu"))
-sig_hat <- exp(coef(mod, what="sigma"))
 
-mu_hat
-sig_hat
+# Choosing the distribution between Realplus ------------------------------
+ch <- chooseDist(object=mod, type="realplus", 
+                 k=2, extra=c("FWE"))
 
-# Next we fit the model using
-# gamlss robust
+ch <- na.omit(ch)
+ch
+
+orden <- order(ch[, 1])
+ch <- ch[orden, , drop = FALSE]
+nombres_ordenados <- rownames(ch)
+rownames(ch) <- nombres_ordenados
+ch
+
+
+# Fitting 3 models --------------------------------------------------------
+
+# To use the robust version of gamlss
 source("https://raw.githubusercontent.com/fhernanb/dist_gamlss_book/main/%5B03%5D%20Robust%20estimation%20example/gamlssRobust.R")
 
+# FWE
 mod_rob <- gamlssRobust(mod, 
                         bound=2.878162, 
                         CD.bound=3.208707, 
                         trace=FALSE)
+
+mod_rob <- gamlssRobust(mod, trace=FALSE)
 
 summary(mod_rob)
 
 exp(coef(mod_rob, what="mu"))
 exp(coef(mod_rob, what="sigma"))
 AIC(mod_rob)
+
+# LOGNO
+mod_LOGNO <- gamlss(y~1, family='LOGNO')
+summary(mod_LOGNO)
+exp(coef(mod_LOGNO, what="mu"))
+exp(coef(mod_LOGNO, what="sigma"))
+AIC(mod_LOGNO)
+
+mod_LOGNO_rob <- gamlssRobust(mod_LOGNO, trace=FALSE)
+summary(mod_LOGNO_rob)
+exp(coef(mod_LOGNO_rob, what="mu"))
+exp(coef(mod_LOGNO_rob, what="sigma"))
+AIC(mod_LOGNO_rob)
+
+# IG
+mod_IG <- gamlss(y~1, family='IG')
+summary(mod_IG)
+exp(coef(mod_IG, what="mu"))
+exp(coef(mod_IG, what="sigma"))
+AIC(mod_IG)
+
+mod_IG_rob <- gamlssRobust(mod_IG, trace=FALSE)
+summary(mod_IG_rob)
+exp(coef(mod_IG_rob, what="mu"))
+exp(coef(mod_IG_rob, what="sigma"))
+AIC(mod_IG_rob)
+
+# Applying Kolmogorov-Smirnov test
+ks.test(x=y, "pFWE", mu=0.2050, sigma=0.2589)
+ks.test(x=y, "pFWE", mu=0.2230, sigma=0.3132)
+
+ks.test(x=y, "pLOGNO", mu=0.7067, sigma=1.3646)
+ks.test(x=y, "pLOGNO", mu=0.7104, sigma=1.3556)
+
+ks.test(x=y, "pIG", mu=1.5779, sigma=1.6245)
+ks.test(x=y, "pIG", mu=1.5809, sigma=1.4776)
+
+
+# The fitted values
+mu_hat  <- exp(coef(mod_rob, what="mu"))
+sig_hat <- exp(coef(mod_rob, what="sigma"))
+
+mu_hat
+sig_hat
 
 # FIGURE
 pdf('Figs/res_example_1.pdf', width=12, height=12)
@@ -89,7 +150,7 @@ par(mfrow=c(2, 2))
 
 # f(y)
 hist(y, freq=FALSE, las=1, breaks=5, main="(a)", ylim=c(0, 0.6), 
-     ylab="f(y)", xlab="y", col="white")
+     ylab="f(y)", xlab="y", col="white", border=gray(0.8))
 curve(dFWE(x, mu = mu_hat, sigma = sig_hat), from=0, to=7, ylim=c(0,1),
       col="black", las=1, lwd=2, add=TRUE)
 
@@ -132,7 +193,7 @@ emp_pdf <- with(density(y), approxfun(x, y, rule=1))
 
 plot(x=sort(y), y=emp_pdf(sort(y)) / emp_sur(sort(y)), 
      las=1, col="gray70", type="s", main="(d)",
-     ylab="Empirical H(y)", xlab="y",
+     ylab="Empirical h(y)", xlab="y",
      xlim=c(0, 7), ylim=c(0, 2.5))
 
 curve(hFWE(x, mu = mu_hat, sigma = sig_hat), from=0, to=7, ylim=c(0, 2.5), 
