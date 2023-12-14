@@ -46,7 +46,7 @@ datos$PARTNER <- as.numeric(datos$PARTNER)
 datos$REST <- as.numeric(datos$REST)
 
 
-# Avoiding NA's
+# Avoiding NA"s
 datos <- na.omit(datos)
 
 # Exploring data ----------------------------------------------------------
@@ -63,7 +63,7 @@ plot(density(datos$Reaction_time_hands, na.rm=TRUE),
      ylab="Density", xlab="Reaction time hands (segs)",
      main="", lwd=3, las=1)
 
-# Relation between X's and Y ----------------------------------------------
+# Relation between X"s and Y ----------------------------------------------
 with(datos, boxplot(Reaction_time_hands ~ Sex))
 with(datos, boxplot(Reaction_time_hands ~ DRINK))
 with(datos, boxplot(Reaction_time_hands ~ SUPPLEMENTS))
@@ -95,9 +95,7 @@ library(RelDists)
 
 # model is an R package hosted in github with an useful
 # fuction called est_param() to compare models
-
-if (!require('devtools')) install.packages('devtools')
-devtools::install_github('fhernanb/model', force=TRUE)
+remotes::install_github("fhernanb/model")
 library(model)
 
 # Choosing the distribution between Realplus
@@ -262,20 +260,20 @@ names(res_fwe) <- 1:35
 
 # To plot the residual plot
 
-pdf('Figs/bruha_residuals_models.pdf', width=7, height=7)
+pdf("Figs/bruha_residuals_models.pdf", width=7, height=7)
 par(mfrow=c(2, 2))
 qqPlot(res_ga, dist="norm", mean=0, sd=1,
-       main='Residuals for GA model', col.lines="gray",
-       ylab='Randomized quantile residuals', las=1)
+       main="Residuals for GA model", col.lines="gray",
+       ylab="Randomized quantile residuals", las=1)
 qqPlot(res_ig, dist="norm", mean=0, sd=1, 
-       main='Residuals for IG model', col.lines="gray",
-       ylab='Randomized quantile residuals', las=1)
+       main="Residuals for IG model", col.lines="gray",
+       ylab="Randomized quantile residuals", las=1)
 qqPlot(res_ln,  dist="norm", mean=0, sd=1, 
-       main='Residuals for LOGNO model', col.lines="gray",
-       ylab='Randomized quantile residuals', las=1)
+       main="Residuals for LOGNO model", col.lines="gray",
+       ylab="Randomized quantile residuals", las=1)
 qqPlot(res_fwe,  dist="norm", mean=0, sd=1, 
-       main='Residuals for FWE model', col.lines="gray",
-       ylab='Randomized quantile residuals', las=1)
+       main="Residuals for FWE model", col.lines="gray",
+       ylab="Randomized quantile residuals", las=1)
 dev.off()
 
 # We need a modification of the wp of gamlss package
@@ -283,12 +281,12 @@ dev.off()
 # load the modifed function run the next code:
 source("my_wp.R")
 
-pdf('Figs/bruha_worm_plots.pdf', width=7, height=7)
+pdf("Figs/bruha_worm_plots.pdf", width=7, height=7)
 par(mfrow=c(2, 2))
-my_wp(mod_GA_2,    main='Wormplot for GA model', col="black")
-my_wp(mod_IG_2,    main='Wormplot for IG model', col="black")
-my_wp(mod_LOGNO_2, main='Wormplot for LOGNO model', col="black")
-my_wp(mod_FWE_3,   main='Wormplot for FWE model', col="black")
+my_wp(mod_GA_2,    main="Wormplot for GA model", col="black")
+my_wp(mod_IG_2,    main="Wormplot for IG model", col="black")
+my_wp(mod_LOGNO_2, main="Wormplot for LOGNO model", col="black")
+my_wp(mod_FWE_3,   main="Wormplot for FWE model", col="black")
 dev.off()
 
 # Testing if residuals follow normal distribution
