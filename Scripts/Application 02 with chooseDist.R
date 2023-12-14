@@ -1,4 +1,4 @@
-# Script for the third example of the FWE paper
+# Script for the second example of the FWE paper
 
 library(dplyr)
 library(readxl)
@@ -92,6 +92,12 @@ with(datos, plot(y=Reaction_time_hands, x=Gluctose))
 # Exploring the marginal distribution -------------------------------------
 library(gamlss)
 library(RelDists)
+
+# model is an R package hosted in github with an useful
+# fuction called est_param() to compare models
+
+if (!require('devtools')) install.packages('devtools')
+devtools::install_github('fhernanb/model', force=TRUE)
 library(model)
 
 # Choosing the distribution between Realplus
@@ -127,19 +133,8 @@ full_mod <- formula( ~
                        Water +
                        Fat +
                        Flexibility +
-                       Gluctose 
-                     
-                     # +
-                     # 
-                     #   Sex +
-                     #   DRINK +
-                     #   SUPPLEMENTS +
-                     #   DOCTOR +
-                     #   PARTNER +
-                     #   REST +
-                     #   SMOKING +
-                     #   ALKOHOL +
-                     #   FOOD
+                       Gluctose + 
+                       Sex
                      )
 
 # Model with GA -----------------------------------------------------------
@@ -234,6 +229,21 @@ cor(y_hat, datos$Reaction_time_hands)
 
 AIC(mod_FWE_2)
 
+# Removing manually no significative variables for FWE model
+
+mod_FWE_3 <- gamlss(Reaction_time_hands ~ Age + Height + Water + HR,
+                    sigma.fo=~Height+Puls+BMI+HR+Weight+Muscle_mass+
+                      Water,
+                    family=FWE,
+                    data=datos,
+                    control=gamlss.control(n.cyc=15000))
+summary(mod_FWE_3)
+
+Rsq(mod_FWE_3)
+y_hat <- est_param(mod_FWE_3, fun = "mean", m = 10000)
+cor(y_hat, datos$Reaction_time_hands)
+AIC(mod_FWE_3)
+
 
 # Residual analysis -------------------------------------------------------
 library(car)
@@ -242,7 +252,7 @@ library(car)
 res_ga <- resid(mod_GA_2)
 res_ig <- resid(mod_IG_2)
 res_ln  <- resid(mod_LOGNO_2)
-res_fwe  <- resid(mod_FWE_2)
+res_fwe  <- resid(mod_FWE_3)
 
 # To change the names
 names(res_ga) <- 1:35
@@ -268,12 +278,17 @@ qqPlot(res_fwe,  dist="norm", mean=0, sd=1,
        ylab='Randomized quantile residuals', las=1)
 dev.off()
 
+# We need a modification of the wp of gamlss package
+# in which we modify some graphical parameters. To
+# load the modifed function run the next code:
+source("my_wp.R")
+
 pdf('Figs/bruha_worm_plots.pdf', width=7, height=7)
 par(mfrow=c(2, 2))
 my_wp(mod_GA_2,    main='Wormplot for GA model', col="black")
 my_wp(mod_IG_2,    main='Wormplot for IG model', col="black")
 my_wp(mod_LOGNO_2, main='Wormplot for LOGNO model', col="black")
-my_wp(mod_FWE_2,   main='Wormplot for FWE model', col="black")
+my_wp(mod_FWE_3,   main='Wormplot for FWE model', col="black")
 dev.off()
 
 # Testing if residuals follow normal distribution
