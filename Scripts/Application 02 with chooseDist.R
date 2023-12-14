@@ -153,6 +153,7 @@ mod_GA_2 <- stepGAIC(mod_GA_1, scope=list(lower=~1, upper=full_mod),
 summary(mod_GA_2)
 Rsq(mod_GA_2)
 
+set.seed(2023)
 y_hat <- est_param(mod_GA_2, fun = "mean", m = 10000)
 cor(y_hat, datos$Reaction_time_hands)
 
@@ -176,6 +177,7 @@ mod_IG_2 <- stepGAIC(mod_IG_1, scope=list(lower=~1, upper=full_mod),
 summary(mod_IG_2)
 Rsq(mod_IG_2)
 
+set.seed(2023)
 y_hat <- est_param(mod_IG_2, fun = "mean", m = 100)
 cor(y_hat, datos$Reaction_time_hands)
 
@@ -199,6 +201,7 @@ mod_LOGNO_2 <- stepGAIC(mod_LOGNO_1, scope=list(lower=~1, upper=full_mod),
 summary(mod_LOGNO_2)
 Rsq(mod_LOGNO_2)
 
+set.seed(2023)
 y_hat <- est_param(mod_LOGNO_2, fun = "mean", m = 10000)
 cor(y_hat, datos$Reaction_time_hands)
 
@@ -222,6 +225,7 @@ mod_FWE_2 <- stepGAIC(mod_FWE_1, scope=list(lower=~1, upper=full_mod),
 summary(mod_FWE_2)
 Rsq(mod_FWE_2)
 
+set.seed(2023)
 y_hat <- est_param(mod_FWE_2, fun = "mean", m = 10000)
 cor(y_hat, datos$Reaction_time_hands)
 
@@ -229,15 +233,17 @@ AIC(mod_FWE_2)
 
 # Removing manually no significative variables for FWE model
 
-mod_FWE_3 <- gamlss(Reaction_time_hands ~ Age + Height + Water + HR,
-                    sigma.fo=~Height+Puls+BMI+HR+Weight+Muscle_mass+
-                      Water,
+mod_FWE_3 <- gamlss(Reaction_time_hands ~ Age + Height + 
+                      Water + HR,
+                    sigma.fo=~ Height + Puls + BMI + 
+                      HR + Weight + Muscle_mass + Water,
                     family=FWE,
                     data=datos,
                     control=gamlss.control(n.cyc=15000))
 summary(mod_FWE_3)
 
 Rsq(mod_FWE_3)
+set.seed(2023)
 y_hat <- est_param(mod_FWE_3, fun = "mean", m = 10000)
 cor(y_hat, datos$Reaction_time_hands)
 AIC(mod_FWE_3)
