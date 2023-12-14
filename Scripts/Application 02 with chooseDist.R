@@ -60,7 +60,7 @@ barplot(table(datos$Age))
 datos <- datos |> filter(Reaction_time_hands > 400)
 
 plot(density(datos$Reaction_time_hands, na.rm=TRUE), 
-     ylab="Density", xlab="Reaction time hands (segs)",
+     ylab="Density", xlab="Reaction time hands (secs)",
      main="", lwd=3, las=1)
 
 # Relation between X"s and Y ----------------------------------------------
@@ -243,6 +243,7 @@ mod_FWE_3 <- gamlss(Reaction_time_hands ~ Age + Height +
 summary(mod_FWE_3)
 
 Rsq(mod_FWE_3)
+
 set.seed(2023)
 y_hat <- est_param(mod_FWE_3, fun = "mean", m = 10000)
 cor(y_hat, datos$Reaction_time_hands)

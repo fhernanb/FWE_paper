@@ -74,7 +74,7 @@ simul <- function(x) {
 
 n <- seq(from=20, to=300, by=20)
 censura <- c(0, 0.1, 0.2, 0.3)
-nrep <- 100
+nrep <- 10000
 
 values <- expand.grid(n=n, censura=censura)
 values
